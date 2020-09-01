@@ -14,10 +14,13 @@ class DjiDroneViewController: UIViewController {
 
     // MARK: - Properties
    
+    var isRecording: Bool!
+    
     var segmentControl: UISegmentedControl!
     var captureButtton: UIButton!
     var recordButton: UIButton!
     var containerView: UIView!
+    var recordTimeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,7 @@ class DjiDroneViewController: UIViewController {
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         segmentControl.insertSegment(withTitle: "CaptureMode", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "RecordMode", at: 1, animated: true)
+        segmentControl.addTarget(self, action: #selector(segmentChange), for: <#T##UIControl.Event#>)
         segmentControl.backgroundColor = .gray
         segmentControl.selectedSegmentTintColor = .systemBlue
         
@@ -87,7 +91,19 @@ class DjiDroneViewController: UIViewController {
     // MARK: - Methods
         
     @objc func capturePhotos() {
+        guard let camera = fetchCamera() else {
+            return
+        }
         
+        camera.setMode(DJICameraMode.shootPhoto, withCompletion: {(error) in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1){
+                camera.startShootPhoto(completion: { (error) in
+                    if let _ = error {
+                        NSLog("Shoot Photo Error: " + String(describing: error))
+                    }
+                })
+            }
+        })
     }
     
     @objc func recordVideo() {
@@ -143,6 +159,18 @@ class DjiDroneViewController: UIViewController {
         let okAction = UIAlertAction.init(title:"OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func segmentChange() {
+        
+    }
+    
+    func formatSeconds(seconds: UInt) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(seconds))
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "mm:ss"
+        return(dateFormatter.string(from: date))
     }
 }
 
@@ -210,6 +238,26 @@ extension DjiDroneViewController: DJISDKManagerDelegate {
     // MARK: -  DJICameraDelegate
 
 extension DjiDroneViewController:  DJICameraDelegate {
+    
+    func camera(_ camera: DJICamera, didUpdate systemState: DJICameraSystemState) {
+        self.isRecording = systemState.isRecording
+        self.recordTimeLabel.isHidden = !self.isRecording
+        
+        self.recordTimeLabel.text = formatSeconds(seconds: systemState.currentVideoRecordingTimeInSeconds)
+        
+        if (self.isRecording == true) {
+            self.recordButton.setTitle("Stop Record", for: .normal)
+        } else {
+            self.recordButton.setTitle("Start Record", for: .normal)
+        }
+        
+        //Update xcodUISegmented Control's State
+        if (systemState.mode == DJICameraMode.shootPhoto) {
+            self.segmentControl.selectedSegmentIndex = 0
+        } else {
+            self.segmentControl.selectedSegmentIndex = 1
+        }
+    }
     
 }
 
