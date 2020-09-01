@@ -50,6 +50,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth Use is Required for Mobile SDK Osmo Support</string>
 	<key>DJISDKAppKey</key>
 	<string>83ddec555b129ac4f0ee4bb8</string>
 </dict>
