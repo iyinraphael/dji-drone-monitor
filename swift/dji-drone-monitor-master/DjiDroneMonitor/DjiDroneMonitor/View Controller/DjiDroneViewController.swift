@@ -28,11 +28,18 @@ class DjiDroneViewController: UIViewController {
         title = "DJI Drone"
         navigationController?.navigationBar.barTintColor = .gray
         
+        DJISDKManager.registerApp(with: self)
+        
+        recordTimeLabel = UILabel()
+        recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        recordTimeLabel.textColor = .black
+        recordTimeLabel.isHidden = true
+        
         segmentControl = UISegmentedControl()
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         segmentControl.insertSegment(withTitle: "CaptureMode", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "RecordMode", at: 1, animated: true)
-        segmentControl.addTarget(self, action: #selector(segmentChange), for: <#T##UIControl.Event#>)
+        segmentControl.addTarget(self, action: #selector(segmentChange), for: .touchUpInside)
         segmentControl.backgroundColor = .gray
         segmentControl.selectedSegmentTintColor = .systemBlue
         
@@ -47,8 +54,9 @@ class DjiDroneViewController: UIViewController {
         recordButton.addTarget(self, action: #selector(recordVideo), for: .touchUpInside)
         
         containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = .white
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
         
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,6 +69,7 @@ class DjiDroneViewController: UIViewController {
         view.addSubview(segmentControl)
         view.addSubview(containerView)
         view.addSubview(stackView)
+        containerView.addSubview(recordTimeLabel)
         
         NSLayoutConstraint.activate([
             segmentControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
@@ -70,6 +79,10 @@ class DjiDroneViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.8),
+            
+            recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            recordTimeLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -107,7 +120,23 @@ class DjiDroneViewController: UIViewController {
     }
     
     @objc func recordVideo() {
+        guard let camera = fetchCamera() else {
+            return
+        }
         
+        if (self.isRecording) {
+            camera.stopRecordVideo(completion: { (error) in
+                if let _ = error {
+                    NSLog("Stop Record Video Error: " + String(describing: error))
+                }
+            })
+        } else {
+            camera.startRecordVideo(completion: { (error) in
+                if let _ = error {
+                    NSLog("Start Record Video Error: " + String(describing: error))
+                }
+            })
+        }
     }
     
     func setupVideoPreviewer() {
@@ -162,6 +191,24 @@ class DjiDroneViewController: UIViewController {
     }
     
     @objc func segmentChange() {
+        guard let camera = fetchCamera() else {
+             return
+         }
+         
+        if (segmentControl.selectedSegmentIndex == 0) {
+             camera.setMode(DJICameraMode.shootPhoto,  withCompletion: { (error) in
+                 if let _ = error {
+                     NSLog("Set ShootPhoto Mode Error: " + String(describing: error))
+                 }
+             })
+             
+        } else if (segmentControl.selectedSegmentIndex == 1) {
+             camera.setMode(DJICameraMode.recordVideo,  withCompletion: { (error) in
+                 if let _ = error {
+                     NSLog("Set RecordVideo Mode Error: " + String(describing: error))
+                 }
+             })
+         }
         
     }
     
