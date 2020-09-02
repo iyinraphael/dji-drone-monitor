@@ -29,7 +29,9 @@ class DjiDroneViewController: UIViewController {
         
         title = "DJI DRONE"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = UIColor(red: 61/255, green: 124/255, blue: 180/255, alpha: 1.0)
         
         recordTimeLabel = UILabel()
         recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -38,20 +40,20 @@ class DjiDroneViewController: UIViewController {
         
         segmentControl = UISegmentedControl()
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segmentControl.insertSegment(withTitle: "CaptureMode", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "RecordMode", at: 1, animated: true)
         segmentControl.addTarget(self, action: #selector(segmentChange), for: .touchUpInside)
-        segmentControl.backgroundColor = .gray
-        segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.selectedSegmentTintColor = .black
         
         captureButtton = UIButton()
-        captureButtton.setTitle("Capture", for: .normal)
         captureButtton.setTitleColor(.systemBlue, for: .normal)
+        captureButtton.setImage(UIImage(named: "camera"), for: .normal)
         captureButtton.addTarget(self, action: #selector(capturePhotos), for: .touchUpInside)
         
         recordButton = UIButton()
-        recordButton.setTitle("Record", for: .normal)
         recordButton.setTitleColor(.systemBlue, for: .normal)
+        recordButton.setImage(UIImage(named: "video"), for: .normal)
         recordButton.addTarget(self, action: #selector(recordVideo), for: .touchUpInside)
         
         containerView = UIView()
@@ -80,7 +82,7 @@ class DjiDroneViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.7),
+            containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.65),
             
             recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             recordTimeLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
