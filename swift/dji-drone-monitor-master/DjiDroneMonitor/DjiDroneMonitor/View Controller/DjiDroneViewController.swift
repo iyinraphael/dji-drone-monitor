@@ -24,11 +24,12 @@ class DjiDroneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "DJI Drone"
-        navigationController?.navigationBar.barTintColor = .gray
         
-        DJISDKManager.registerApp(with: self)
+        view.backgroundColor = .white
+        
+        title = "DJI DRONE"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         
         recordTimeLabel = UILabel()
         recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +80,7 @@ class DjiDroneViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.8),
+            containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.7),
             
             recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             recordTimeLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
@@ -87,8 +88,14 @@ class DjiDroneViewController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 64),
             stackView.topAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+         DJISDKManager.registerApp(with: self)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -298,7 +305,6 @@ extension DjiDroneViewController:  DJICameraDelegate {
             self.recordButton.setTitle("Start Record", for: .normal)
         }
         
-        //Update xcodUISegmented Control's State
         if (systemState.mode == DJICameraMode.shootPhoto) {
             self.segmentControl.selectedSegmentIndex = 0
         } else {
