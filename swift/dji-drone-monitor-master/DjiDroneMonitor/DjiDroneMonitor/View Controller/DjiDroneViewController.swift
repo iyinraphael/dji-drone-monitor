@@ -31,7 +31,7 @@ class DjiDroneViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor(red: 61/255, green: 124/255, blue: 180/255, alpha: 1.0)
+        navigationController?.navigationBar.barTintColor = .black
         
         recordTimeLabel = UILabel()
         recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false
