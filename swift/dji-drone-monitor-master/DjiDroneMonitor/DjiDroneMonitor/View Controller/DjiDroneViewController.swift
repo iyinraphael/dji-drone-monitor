@@ -30,6 +30,7 @@ class DjiDroneViewController: UIViewController {
         title = "DJI DRONE"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .black
         
@@ -44,7 +45,7 @@ class DjiDroneViewController: UIViewController {
         segmentControl.insertSegment(withTitle: "CaptureMode", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "RecordMode", at: 1, animated: true)
         segmentControl.addTarget(self, action: #selector(segmentChange), for: .touchUpInside)
-        segmentControl.selectedSegmentTintColor = .black
+        segmentControl.selectedSegmentTintColor = .orange
         
         captureButtton = UIButton()
         captureButtton.setTitleColor(.systemBlue, for: .normal)
@@ -75,13 +76,12 @@ class DjiDroneViewController: UIViewController {
         containerView.addSubview(recordTimeLabel)
         
         NSLayoutConstraint.activate([
-            segmentControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            segmentControl.topAnchor.constraint(equalTo: view.topAnchor),
             segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
             containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.65),
             
             recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
