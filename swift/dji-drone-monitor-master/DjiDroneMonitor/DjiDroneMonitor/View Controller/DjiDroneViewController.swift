@@ -26,10 +26,7 @@ class DjiDroneViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        title = "DJI DRONE"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .black
@@ -79,6 +76,7 @@ class DjiDroneViewController: UIViewController {
             segmentControl.topAnchor.constraint(equalTo: view.topAnchor),
             segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            segmentControl.heightAnchor.constraint(equalToConstant: 44),
             
             containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -87,7 +85,7 @@ class DjiDroneViewController: UIViewController {
             recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             recordTimeLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             stackView.heightAnchor.constraint(equalToConstant: 64),

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let nav = UINavigationController()
-        let vc = DjiDroneViewController()
+        let vc =  DjiDroneTabController()
         
         nav.addChild(vc)
         nav.view.frame = vc.view.bounds
