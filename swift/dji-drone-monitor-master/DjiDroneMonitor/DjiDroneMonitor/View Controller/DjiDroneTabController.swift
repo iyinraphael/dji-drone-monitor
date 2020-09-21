@@ -9,20 +9,25 @@
 import UIKit
 
 class DjiDroneTabController: UITabBarController {
-
+    
+    // MARK: - Properties
+    let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "DJI Drone"
-        let djiDroneMissionVC = DjiDroneMissionViewController()
-        let djiDroneVC = DjiDroneViewController()
+        
+        let djiDroneMissionVC = UINavigationController(rootViewController: DjiDroneMissionViewController())
+        let djiDroneVC = UINavigationController(rootViewController: DjiDroneViewController())
         
         djiDroneMissionVC.tabBarItem = UITabBarItem(title: "Mission", image: UIImage(named: "mission"), tag: 0)
         djiDroneVC.tabBarItem = UITabBarItem(title: "Media", image: UIImage(named: "media"), tag: 1)
-        
         djiDroneMissionVC.tabBarItem.selectedImage = UIImage(named: "mission.fill")
         djiDroneVC.tabBarItem.selectedImage = UIImage(named: "media.fill")
+    
+        tabBar.tintColor = primaryColor
         
         viewControllers = [ djiDroneMissionVC, djiDroneVC]
+        
     }
     
 

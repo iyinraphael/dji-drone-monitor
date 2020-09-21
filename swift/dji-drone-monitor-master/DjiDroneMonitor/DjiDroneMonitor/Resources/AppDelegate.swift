@@ -12,17 +12,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-
+    let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let nav = UINavigationController()
+    
         let vc =  DjiDroneTabController()
         
-        nav.addChild(vc)
-        nav.view.frame = vc.view.bounds
-        
-        window?.rootViewController = nav
+        window?.rootViewController = vc 
         window?.makeKeyAndVisible()
         
         return true

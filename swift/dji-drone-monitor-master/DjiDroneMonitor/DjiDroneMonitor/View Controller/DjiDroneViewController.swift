@@ -24,12 +24,9 @@ class DjiDroneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+         title = "Dji Drone"
         
         view.backgroundColor = .white
-
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = .black
         
         recordTimeLabel = UILabel()
         recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false

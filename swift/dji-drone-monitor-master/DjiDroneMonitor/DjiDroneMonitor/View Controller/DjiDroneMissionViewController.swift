@@ -10,11 +10,16 @@ import UIKit
 
 class DjiDroneMissionViewController: UIViewController {
 
+    // MARK: - Properties
+    let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-
+        title = "Dji Drone"
+        
+        navigationController?.navigationBar.barTintColor = primaryColor
+        navigationController?.navigationBar.isTranslucent = false
     }
     
 }
