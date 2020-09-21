@@ -12,6 +12,7 @@ class DjiDroneTabController: UITabBarController {
     
     // MARK: - Properties
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    let darkPriColor = UIColor(red: 173/255, green: 86/255, blue: 30/255, alpha: 1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,10 @@ class DjiDroneTabController: UITabBarController {
         djiDroneMissionVC.tabBarItem.selectedImage = UIImage(named: "mission.fill")
         djiDroneVC.tabBarItem.selectedImage = UIImage(named: "media.fill")
     
-        tabBar.tintColor = primaryColor
+        tabBar.tintColor = .black
+        tabBar.unselectedItemTintColor = .black
+        tabBar.barTintColor = primaryColor
+        
         
         viewControllers = [ djiDroneMissionVC, djiDroneVC]
         

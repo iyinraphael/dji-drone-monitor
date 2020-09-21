@@ -13,10 +13,12 @@ import DJISDK
 class DjiDroneViewController: UIViewController {
 
     // MARK: - Properties
+    
+    let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    let secondaryColor = UIColor(red: 30/255, green: 117/255, blue: 173/255, alpha: 1)
    
     var isRecording: Bool!
-    
-    var segmentControl: UISegmentedControl!
+
     var captureButtton: UIButton!
     var recordButton: UIButton!
     var containerView: UIView!
@@ -28,25 +30,21 @@ class DjiDroneViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        navigationController?.navigationBar.barTintColor = primaryColor
+        navigationController?.navigationBar.isTranslucent = false
+        
         recordTimeLabel = UILabel()
         recordTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         recordTimeLabel.textColor = .black
         recordTimeLabel.isHidden = true
         
-        segmentControl = UISegmentedControl()
-        segmentControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        segmentControl.insertSegment(withTitle: "CaptureMode", at: 0, animated: true)
-        segmentControl.insertSegment(withTitle: "RecordMode", at: 1, animated: true)
-        segmentControl.addTarget(self, action: #selector(segmentChange), for: .touchUpInside)
-        segmentControl.selectedSegmentTintColor = .orange
-        
         captureButtton = UIButton()
-        captureButtton.setTitleColor(.systemBlue, for: .normal)
+        captureButtton.backgroundColor = secondaryColor
         captureButtton.setImage(UIImage(named: "camera"), for: .normal)
         captureButtton.addTarget(self, action: #selector(capturePhotos), for: .touchUpInside)
         
         recordButton = UIButton()
+        recordButton.backgroundColor = secondaryColor
         recordButton.setTitleColor(.systemBlue, for: .normal)
         recordButton.setImage(UIImage(named: "video"), for: .normal)
         recordButton.addTarget(self, action: #selector(recordVideo), for: .touchUpInside)
@@ -63,35 +61,26 @@ class DjiDroneViewController: UIViewController {
         stackView.alignment = .center
         stackView.addArrangedSubview(captureButtton)
         stackView.addArrangedSubview(recordButton)
-        
-        view.addSubview(segmentControl)
+    
         view.addSubview(containerView)
         view.addSubview(stackView)
         containerView.addSubview(recordTimeLabel)
         
         NSLayoutConstraint.activate([
-            segmentControl.topAnchor.constraint(equalTo: view.topAnchor),
-            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            segmentControl.heightAnchor.constraint(equalToConstant: 44),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 44),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            containerView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
             containerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.65),
             
             recordTimeLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             recordTimeLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
-            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 64),
-            stackView.topAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        
          DJISDKManager.registerApp(with: self)
     }
     
@@ -128,18 +117,25 @@ class DjiDroneViewController: UIViewController {
             return
         }
         
-        if (self.isRecording) {
-            camera.stopRecordVideo(completion: { (error) in
-                if let _ = error {
-                    NSLog("Stop Record Video Error: " + String(describing: error))
-                }
-            })
-        } else {
-            camera.startRecordVideo(completion: { (error) in
-                if let _ = error {
-                    NSLog("Start Record Video Error: " + String(describing: error))
-                }
-            })
+        camera.setMode(DJICameraMode.recordVideo) { error in
+            if let _ = error {
+                NSLog("Set RecordVideo Mode Error: " + String(describing: error))
+            }
+            
+            if (self.isRecording) {
+                camera.stopRecordVideo(completion: { error in
+                    if let _ = error {
+                        NSLog("Stop Record Video Error: " + String(describing: error))
+                    }
+                })
+            } else {
+                camera.startRecordVideo(completion: { (error) in
+                    if let _ = error {
+                        NSLog("Start Record Video Error: " + String(describing: error))
+                    }
+                })
+            }
+            
         }
     }
     
@@ -194,27 +190,6 @@ class DjiDroneViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func segmentChange() {
-        guard let camera = fetchCamera() else {
-             return
-         }
-         
-        if (segmentControl.selectedSegmentIndex == 0) {
-             camera.setMode(DJICameraMode.shootPhoto,  withCompletion: { (error) in
-                 if let _ = error {
-                     NSLog("Set ShootPhoto Mode Error: " + String(describing: error))
-                 }
-             })
-             
-        } else if (segmentControl.selectedSegmentIndex == 1) {
-             camera.setMode(DJICameraMode.recordVideo,  withCompletion: { (error) in
-                 if let _ = error {
-                     NSLog("Set RecordVideo Mode Error: " + String(describing: error))
-                 }
-             })
-         }
-        
-    }
     
     func formatSeconds(seconds: UInt) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(seconds))
@@ -300,12 +275,6 @@ extension DjiDroneViewController:  DJICameraDelegate {
             self.recordButton.setTitle("Stop Record", for: .normal)
         } else {
             self.recordButton.setTitle("Start Record", for: .normal)
-        }
-        
-        if (systemState.mode == DJICameraMode.shootPhoto) {
-            self.segmentControl.selectedSegmentIndex = 0
-        } else {
-            self.segmentControl.selectedSegmentIndex = 1
         }
     }
     
