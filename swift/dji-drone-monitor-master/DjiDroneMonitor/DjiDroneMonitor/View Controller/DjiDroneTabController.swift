@@ -16,9 +16,12 @@ class DjiDroneTabController: UITabBarController {
         let djiDroneMissionVC = DjiDroneMissionViewController()
         let djiDroneVC = DjiDroneViewController()
         
-        djiDroneMissionVC.tabBarItem = UITabBarItem(title: "Mission", image: nil, tag: 0)
-        djiDroneVC.tabBarItem = UITabBarItem(title: "Media", image: nil, tag: 1)
-
+        djiDroneMissionVC.tabBarItem = UITabBarItem(title: "Mission", image: UIImage(named: "mission"), tag: 0)
+        djiDroneVC.tabBarItem = UITabBarItem(title: "Media", image: UIImage(named: "media"), tag: 1)
+        
+        djiDroneMissionVC.tabBarItem.selectedImage = UIImage(named: "mission.fill")
+        djiDroneVC.tabBarItem.selectedImage = UIImage(named: "media.fill")
+        
         viewControllers = [ djiDroneMissionVC, djiDroneVC]
     }
     
