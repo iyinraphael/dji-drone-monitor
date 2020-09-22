@@ -10,6 +10,8 @@
 		88392D5716574DA026B558AB /* Pods_DjiDroneMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A304BADA18CB4649F0F585 /* Pods_DjiDroneMonitor.framework */; };
 		EB65BA6D25190A630031CC7C /* DjiDroneTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA6C25190A630031CC7C /* DjiDroneTabController.swift */; };
 		EB65BA7025190AD50031CC7C /* DjiDroneMissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA6F25190AD50031CC7C /* DjiDroneMissionViewController.swift */; };
+		EB65BA74251A49220031CC7C /* DjiDrone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA73251A49220031CC7C /* DjiDrone.swift */; };
+		EB65BA76251A49A90031CC7C /* DjiDroneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA75251A49A90031CC7C /* DjiDroneController.swift */; };
 		EB9AC0C724FEA8FC00DC1295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AC0C624FEA8FC00DC1295 /* AppDelegate.swift */; };
 		EB9AC0D024FEA8FD00DC1295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB9AC0CF24FEA8FD00DC1295 /* Assets.xcassets */; };
 		EB9AC0D324FEA8FD00DC1295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB9AC0D124FEA8FD00DC1295 /* LaunchScreen.storyboard */; };
@@ -22,6 +24,8 @@
 		D2A304BADA18CB4649F0F585 /* Pods_DjiDroneMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjiDroneMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB65BA6C25190A630031CC7C /* DjiDroneTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneTabController.swift; sourceTree = "<group>"; };
 		EB65BA6F25190AD50031CC7C /* DjiDroneMissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneMissionViewController.swift; sourceTree = "<group>"; };
+		EB65BA73251A49220031CC7C /* DjiDrone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDrone.swift; sourceTree = "<group>"; };
+		EB65BA75251A49A90031CC7C /* DjiDroneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneController.swift; sourceTree = "<group>"; };
 		EB9AC0C324FEA8FC00DC1295 /* DjiDroneMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DjiDroneMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9AC0C624FEA8FC00DC1295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB9AC0CF24FEA8FD00DC1295 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,6 +63,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EB65BA71251A48F00031CC7C /* Model Controller  */ = {
+			isa = PBXGroup;
+			children = (
+				EB65BA75251A49A90031CC7C /* DjiDroneController.swift */,
+			);
+			path = "Model Controller ";
+			sourceTree = "<group>";
+		};
+		EB65BA72251A49090031CC7C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EB65BA73251A49220031CC7C /* DjiDrone.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		EB9AC0BA24FEA8FC00DC1295 = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +100,8 @@
 		EB9AC0C524FEA8FC00DC1295 /* DjiDroneMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				EB65BA72251A49090031CC7C /* Model */,
+				EB65BA71251A48F00031CC7C /* Model Controller  */,
 				EB9AC0DB24FEB15200DC1295 /* View Controller */,
 				EB9AC0DA24FEA95D00DC1295 /* Resources */,
 				EB9AC0D424FEA8FD00DC1295 /* Info.plist */,
@@ -222,8 +244,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB65BA6D25190A630031CC7C /* DjiDroneTabController.swift in Sources */,
+				EB65BA74251A49220031CC7C /* DjiDrone.swift in Sources */,
 				EB9AC0C724FEA8FC00DC1295 /* AppDelegate.swift in Sources */,
 				EB65BA7025190AD50031CC7C /* DjiDroneMissionViewController.swift in Sources */,
+				EB65BA76251A49A90031CC7C /* DjiDroneController.swift in Sources */,
 				EB9AC0DD24FEB18100DC1295 /* DjiDroneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

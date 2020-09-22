@@ -42,7 +42,7 @@ class DjiDroneViewController: UIViewController {
         captureButtton.backgroundColor = secondaryColor
         captureButtton.setImage(UIImage(named: "camera"), for: .normal)
         captureButtton.addTarget(self, action: #selector(capturePhotos), for: .touchUpInside)
-        
+    
         recordButton = UIButton()
         recordButton.backgroundColor = secondaryColor
         recordButton.setTitleColor(.systemBlue, for: .normal)
