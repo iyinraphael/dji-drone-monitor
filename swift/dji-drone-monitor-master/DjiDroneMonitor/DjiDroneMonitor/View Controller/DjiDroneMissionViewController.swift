@@ -56,7 +56,9 @@ class DjiDroneMissionViewController: UIViewController {
             if result == .success(true) {
                 for location in djiDroneLocations {
                     guard let location =  location else { return }
+                    print(location)
                     self.djiDronesLocations.append(location)
+                    print(self.djiDronesLocations)
                 }
             }
             
