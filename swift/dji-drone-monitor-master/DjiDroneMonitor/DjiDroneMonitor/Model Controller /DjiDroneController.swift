@@ -27,8 +27,7 @@ class DjiDroneController {
     
     // MARK: - Properties
     let url = URL(string: "https://drone-app-c74c3.firebaseio.com/")!
-    typealias completionHandler = ([DjiDrone?], Result<Bool, NetworkError> ) -> Void
-    var arrayDjiDrone: [DjiDrone] = []
+    typealias completionHandler = ([DjiDroneLocation?], Result<Bool, NetworkError> ) -> Void
     
     // MARK: - Method
     
@@ -51,16 +50,13 @@ class DjiDroneController {
             }
             
             do {
-                let parentData =  try JSONDecoder().decode(ParentData.self, from: data)
-                self.arrayDjiDrone = [parentData.result]
+                let DjiDroneLocations = try Array( JSONDecoder().decode([String : DjiDroneLocation].self, from: data).values)
+                completion(DjiDroneLocations, .success(true))
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion([nil], .failure(.failedDecode))
             }
-            completion(self.arrayDjiDrone, .success(true))
         }
-                               
         taskSession.resume()
-        
     }
 }

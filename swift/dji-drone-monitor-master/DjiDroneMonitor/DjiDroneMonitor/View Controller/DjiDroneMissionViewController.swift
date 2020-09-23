@@ -16,6 +16,7 @@ class DjiDroneMissionViewController: UIViewController {
     // MARK: - Properties
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
     let djiDroneController = DjiDroneController()
+    var djiDronesLocations = [DjiDroneLocation]()
     
     var mapView: MKMapView!
     var barButton: UIBarButtonItem!
@@ -51,10 +52,14 @@ class DjiDroneMissionViewController: UIViewController {
     // MARK: - Methods
     
     @objc func showLocation() {
-        djiDroneController.getLocationData { djiDrone, result in
+        djiDroneController.getLocationData { djiDroneLocations, result in
             if result == .success(true) {
-                print(djiDrone)
+                for location in djiDroneLocations {
+                    guard let location =  location else { return }
+                    self.djiDronesLocations.append(location)
+                }
             }
+            
         }
     }
     

@@ -8,14 +8,9 @@
 
 import Foundation
 
-struct DjiDrone: Codable {
-//    let caseID: String
-    let lat: Double
-    let long: Double
+struct DjiDroneLocation: Codable {
+    let caseID: String
+    let lat: String
+    let long: String
 //    let altitude: Double
 }
-
-struct ParentData: Codable {
-    let result: DjiDrone
-}
-
