@@ -10,13 +10,14 @@ import UIKit
 import DJISDK
 import DJIUXSDK
 import DJIWidget
+import MapKit
 
 class DjiDroneMissionViewController: UIViewController {
 
     // MARK: - Properties
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
     let djiDroneController = DjiDroneController()
-    var djiDronesLocations = [CLLocationCoordinate2D]()
+    var djiDronesAnnotation = [DJIDroneAnnotation]()
     var location: CLLocationCoordinate2D?
     let reuseIdentifier = "viewPoint"
     
@@ -43,7 +44,7 @@ class DjiDroneMissionViewController: UIViewController {
         mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
-        mapView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: reuseIdentifier)
+        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: reuseIdentifier)
         view.addSubview(mapView)
         
         NSLayoutConstraint.activate([
@@ -65,28 +66,23 @@ class DjiDroneMissionViewController: UIViewController {
     private func showDiffLocation() {
         djiDroneController.getLocationData { djiDroneLocations, result in
             if result == .success(true) {
-                self.annotation = MKPointAnnotation()
-                for coordinate in djiDroneLocations {
-                    guard let location =  coordinate,
+                for djiDroneLocation in djiDroneLocations {
+                    guard let location =  djiDroneLocation,
                     let lat = Double(location.lat),
                     let long =  Double(location.long) else { return }
                     
-                    let cLlocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                    self.djiDronesLocations.append(cLlocation)
-                    
-                    self.annotation?.title = coordinate?.caseID
-                    self.annotation?.coordinate =  cLlocation
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    let djiDroneAnnotation = DJIDroneAnnotation(coordinate: coordinate, title: location.caseID, subtitle: "Location for case ID: \(location.caseID)")
                     
                     DispatchQueue.main.async {
-                        self.mapView.addAnnotation(self.annotation!)
-                        
-                        let span = MKCoordinateSpan(latitudeDelta:95.7129,
-                                                    longitudeDelta:  37.0902)
-                        let region = MKCoordinateRegion(center: self.djiDronesLocations[0], span: span)
-                        self.mapView.setRegion(region, animated: true)
+                        self.mapView.addAnnotation(djiDroneAnnotation)
                     }
                     
                 }
+//                let span = MKCoordinateSpan(latitudeDelta:0.05,
+//                                            longitudeDelta:  0.05)
+//                let region = MKCoordinateRegion(center: self.djiDronesLocations[0], span: span)
+//                self.mapView.setRegion(region, animated: true)
             }
         }
     }
@@ -97,16 +93,17 @@ extension DjiDroneMissionViewController: MKMapViewDelegate {
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MKPointAnnotation else { return nil }
-        annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier, for: annotation)
         
-       if annotationView == nil {
-              annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
-              annotationView!.canShowCallout = true
-          } else {
-              annotationView!.annotation = annotation
-          }
-        return annotationView
+        if let djiAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKMarkerAnnotationView {
+            djiAnnotationView.animatesWhenAdded = true
+            djiAnnotationView.titleVisibility = .adaptive
+            djiAnnotationView.subtitleVisibility = .adaptive
+            djiAnnotationView.markerTintColor = primaryColor
+            
+            return djiAnnotationView
+            
+        }
+        return nil
     }
     
 }

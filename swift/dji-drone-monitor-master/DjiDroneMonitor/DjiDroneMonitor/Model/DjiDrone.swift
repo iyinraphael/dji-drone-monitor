@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DjiDroneLocation: Codable {
+struct DjiDroneLocation: Codable{
     let caseID: String
     let lat: String
     let long: String
