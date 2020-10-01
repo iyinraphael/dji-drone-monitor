@@ -99,6 +99,7 @@ extension DjiDroneMissionViewController: MKMapViewDelegate {
             djiAnnotationView.titleVisibility = .adaptive
             djiAnnotationView.subtitleVisibility = .adaptive
             djiAnnotationView.markerTintColor = primaryColor
+            djiAnnotationView.glyphImage = UIImage(named: "mission")
             
             return djiAnnotationView
             
