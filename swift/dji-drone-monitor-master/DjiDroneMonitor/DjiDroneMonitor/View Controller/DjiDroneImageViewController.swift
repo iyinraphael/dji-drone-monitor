@@ -57,6 +57,7 @@ class DjiDroneImageViewController: UIViewController {
         submitButton.backgroundColor = secondaryColor
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
+        submitButton.addTarget(self, action: #selector(sendImagetoPega), for: .touchUpInside)
         stackView.addArrangedSubview(submitButton)
         
         NSLayoutConstraint.activate([
@@ -96,6 +97,9 @@ class DjiDroneImageViewController: UIViewController {
         return paths[0]
     }
 
+    @objc func sendImagetoPega(_ djiImage: DjiImage) {
+        
+    }
 
 }
 
@@ -128,6 +132,5 @@ extension DjiDroneImageViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         textField.becomeFirstResponder()
-        textField. 
     }
 }
