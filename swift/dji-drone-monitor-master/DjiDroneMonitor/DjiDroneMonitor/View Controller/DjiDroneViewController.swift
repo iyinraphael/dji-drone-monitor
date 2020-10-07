@@ -23,6 +23,7 @@ class DjiDroneViewController: UIViewController {
     var recordButton: UIButton!
     var containerView: UIView!
     var recordTimeLabel: UILabel!
+    var showImageButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +54,8 @@ class DjiDroneViewController: UIViewController {
         containerView.backgroundColor = .white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
+        showImageButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showImage))
+        navigationItem.rightBarButtonItem = showImageButton
         
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -198,6 +201,12 @@ class DjiDroneViewController: UIViewController {
         dateFormatter.dateFormat = "mm:ss"
         return(dateFormatter.string(from: date))
     }
+    
+    @objc func showImage() {
+        let vc = UINavigationController(rootViewController: DjiDroneImageViewController())
+        present(vc, animated: true)
+    }
+    
 }
 
 

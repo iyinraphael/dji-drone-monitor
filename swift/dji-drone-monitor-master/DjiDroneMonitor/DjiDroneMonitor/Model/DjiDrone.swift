@@ -12,5 +12,6 @@ struct DjiDroneLocation: Codable{
     let caseID: String
     let lat: String
     let long: String
+    var image: Data?
 //    let altitude: Double
 }

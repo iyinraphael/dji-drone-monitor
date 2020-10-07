@@ -13,11 +13,12 @@ class DjiDroneImageViewController: UIViewController {
     // MARK: - Properties
     
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
+    let secondaryColor = UIColor(red: 30/255, green: 117/255, blue: 173/255, alpha: 1)
     
     var addImageBarbutton: UIBarButtonItem!
     var imagePickerController: UIImagePickerController!
     var imageView: UIImageView!
-    var caseIDLabel: UILabel!
+    var caseIDTextField: UITextField!
     var submitButton: UIButton!
     
     var djiDroneLocation: DjiDroneLocation?
@@ -36,12 +37,38 @@ class DjiDroneImageViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 5.0
+        view.addSubview(stackView)
+        
+        caseIDTextField = UITextField()
+        caseIDTextField.delegate = self
+        caseIDTextField.placeholder = "Enter case ID"
+        caseIDTextField.layer.borderWidth = 0.2
+        caseIDTextField.layer.borderColor = secondaryColor.cgColor
+        stackView.addArrangedSubview(caseIDTextField)
+        
+        submitButton = UIButton()
+        submitButton.setTitle("Submit", for: .normal)
+        submitButton.backgroundColor = secondaryColor
+        submitButton.layer.cornerRadius = 10
+        submitButton.clipsToBounds = true
+        stackView.addArrangedSubview(submitButton)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
-            imageView.heightAnchor.constraint(equalToConstant: 300)
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            imageView.heightAnchor.constraint(equalToConstant: 300),
+            
+            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            caseIDTextField.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -93,5 +120,14 @@ extension DjiDroneImageViewController: UIImagePickerControllerDelegate, UINaviga
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         imagePickerController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension DjiDroneImageViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        textField.becomeFirstResponder()
+        textField. 
     }
 }

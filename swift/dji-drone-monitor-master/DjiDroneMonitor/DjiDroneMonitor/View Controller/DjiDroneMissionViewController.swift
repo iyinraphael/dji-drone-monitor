@@ -17,7 +17,8 @@ class DjiDroneMissionViewController: UIViewController {
     // MARK: - Properties
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
     let djiDroneController = DjiDroneController()
-    var djiDronesAnnotation = [DJIDroneAnnotation]()
+    var djiDronesAnnotations = [DJIDroneAnnotation]()
+    var locationManager: CLLocationManager?
     var location: CLLocationCoordinate2D?
     let reuseIdentifier = "viewPoint"
     
@@ -47,6 +48,7 @@ class DjiDroneMissionViewController: UIViewController {
         mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: reuseIdentifier)
         view.addSubview(mapView)
         
+        
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -60,10 +62,53 @@ class DjiDroneMissionViewController: UIViewController {
     // MARK: - Methods
     
     @objc func showLocation() {
+      
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        handleAuthorization(for: locationManager!, status: CLLocationManager.authorizationStatus())
 
     }
     
+    private func handleAuthorization(for locationManager: CLLocationManager, status: CLAuthorizationStatus) {
+        
+        switch status {
+            
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            showAlertView(for: "Resticted", with: "User's location access is restricted")
+        case .denied:
+            showAlertView(for: "Denied", with: "User Denied Location access")
+        case .authorizedAlways:
+            guard let center =  locationManager.location?.coordinate else { return }
+            centerView(center: center)
+        case .authorizedWhenInUse:
+            guard let center = locationManager.location?.coordinate else { return }
+            centerView(center: center)
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    private func showAlertView(for title: String, with message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default)
+        alertController.addAction(action)
+        
+        self.present(alertController, animated: true)
+    }
+    
+    private func centerView(center: CLLocationCoordinate2D) {
+        let locationDistance: Double = 500
+        let region = MKCoordinateRegion(center: center,
+                                        latitudinalMeters: locationDistance,
+                                        longitudinalMeters: locationDistance)
+        mapView.setRegion(region, animated: true)
+    }
+    
     private func showDiffLocation() {
+        
         djiDroneController.getLocationData { djiDroneLocations, result in
             if result == .success(true) {
                 for djiDroneLocation in djiDroneLocations {
@@ -73,6 +118,8 @@ class DjiDroneMissionViewController: UIViewController {
                     
                     let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
                     let djiDroneAnnotation = DJIDroneAnnotation(coordinate: coordinate, title: location.caseID, subtitle: "Location for case ID: \(location.caseID)")
+                    
+                    self.djiDronesAnnotations.append(djiDroneAnnotation)
                     
                     DispatchQueue.main.async {
                         self.mapView.addAnnotation(djiDroneAnnotation)
@@ -107,4 +154,20 @@ extension DjiDroneMissionViewController: MKMapViewDelegate {
         return nil
     }
     
+}
+
+extension DjiDroneMissionViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            let center = location.coordinate
+            centerView(center: center)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if let locationManager = locationManager {
+           handleAuthorization(for: locationManager, status: status)
+        }
+    }
 }

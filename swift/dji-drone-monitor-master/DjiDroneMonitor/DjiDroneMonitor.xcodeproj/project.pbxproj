@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		88392D5716574DA026B558AB /* Pods_DjiDroneMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A304BADA18CB4649F0F585 /* Pods_DjiDroneMonitor.framework */; };
 		EB2E6201252641DE003B6E52 /* DJIDroneAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2E6200252641DD003B6E52 /* DJIDroneAnnotation.swift */; };
+		EB3D0412252CDC82006A2FA2 /* DjiDroneImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3D0411252CDC82006A2FA2 /* DjiDroneImageViewController.swift */; };
 		EB65BA6D25190A630031CC7C /* DjiDroneTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA6C25190A630031CC7C /* DjiDroneTabController.swift */; };
 		EB65BA7025190AD50031CC7C /* DjiDroneMissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA6F25190AD50031CC7C /* DjiDroneMissionViewController.swift */; };
 		EB65BA74251A49220031CC7C /* DjiDrone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65BA73251A49220031CC7C /* DjiDrone.swift */; };
@@ -24,6 +25,7 @@
 		987F63643404910344C9664D /* Pods-DjiDroneMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjiDroneMonitor.release.xcconfig"; path = "Target Support Files/Pods-DjiDroneMonitor/Pods-DjiDroneMonitor.release.xcconfig"; sourceTree = "<group>"; };
 		D2A304BADA18CB4649F0F585 /* Pods_DjiDroneMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjiDroneMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2E6200252641DD003B6E52 /* DJIDroneAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DJIDroneAnnotation.swift; sourceTree = "<group>"; };
+		EB3D0411252CDC82006A2FA2 /* DjiDroneImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneImageViewController.swift; sourceTree = "<group>"; };
 		EB65BA6C25190A630031CC7C /* DjiDroneTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneTabController.swift; sourceTree = "<group>"; };
 		EB65BA6F25190AD50031CC7C /* DjiDroneMissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDroneMissionViewController.swift; sourceTree = "<group>"; };
 		EB65BA73251A49220031CC7C /* DjiDrone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjiDrone.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				EB9AC0DC24FEB18100DC1295 /* DjiDroneViewController.swift */,
 				EB65BA6C25190A630031CC7C /* DjiDroneTabController.swift */,
 				EB65BA6F25190AD50031CC7C /* DjiDroneMissionViewController.swift */,
+				EB3D0411252CDC82006A2FA2 /* DjiDroneImageViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				EB65BA7025190AD50031CC7C /* DjiDroneMissionViewController.swift in Sources */,
 				EB65BA76251A49A90031CC7C /* DjiDroneController.swift in Sources */,
 				EB9AC0DD24FEB18100DC1295 /* DjiDroneViewController.swift in Sources */,
+				EB3D0412252CDC82006A2FA2 /* DjiDroneImageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
