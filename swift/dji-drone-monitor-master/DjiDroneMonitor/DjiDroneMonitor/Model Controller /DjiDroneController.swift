@@ -85,9 +85,12 @@ class DjiDroneController {
             if let response = response as? HTTPURLResponse {
                 if response.statusCode == 200 {
                     print("Status 200!")
-                    completion([nil], .success(true))
+                    return
+                } else {
+                    print("\(response.statusCode)")
                 }
             }
+            completion([nil], .success(true))
         }
         taskSession.resume()
     }

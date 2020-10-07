@@ -22,6 +22,8 @@ class DjiDroneImageViewController: UIViewController {
     var submitButton: UIButton!
     
     var djiDroneLocation: DjiDroneLocation?
+    var djiDroneController: DjiDroneController?
+    var imageData: Data?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +58,7 @@ class DjiDroneImageViewController: UIViewController {
         submitButton.setTitle("Submit", for: .normal)
         submitButton.backgroundColor = secondaryColor
         submitButton.layer.cornerRadius = 10
-        submitButton.clipsToBounds = true
+        submitButton.isEnabled = true
         submitButton.addTarget(self, action: #selector(sendImagetoPega), for: .touchUpInside)
         stackView.addArrangedSubview(submitButton)
         
@@ -97,8 +99,16 @@ class DjiDroneImageViewController: UIViewController {
         return paths[0]
     }
 
-    @objc func sendImagetoPega(_ djiImage: DjiImage) {
+    @objc func sendImagetoPega() {
         
+        guard let imageData = imageData, let caseID = caseIDTextField.text else { return }
+        let binaryImage = imageData.base64EncodedString()
+        let djiImage = DjiImage(CaseID: caseID, PictureName: caseID, Picture: binaryImage)
+        djiDroneController?.sendImage(djiImage, with: { _, result in
+            if result == .success(true){
+                print("it's live!")
+            }
+        })
     }
 
 }
@@ -112,13 +122,10 @@ extension DjiDroneImageViewController: UIImagePickerControllerDelegate, UINaviga
         let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
 
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
+            self.imageData = jpegData
             try? jpegData.write(to: imagePath)
-            self.djiDroneLocation = DjiDroneLocation(caseID: "Case123", lat: "0", long: "0", image: jpegData)
-            
-            guard let imageData = djiDroneLocation?.image,
-                let image = UIImage(data: imageData) else { return }
-            
-            imageView.image = image
+            guard let image = UIImage(data: jpegData) else { return }
+            self.imageView.image = image
         }
     }
     

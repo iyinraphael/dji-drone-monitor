@@ -17,6 +17,7 @@ class DjiDroneViewController: UIViewController {
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
     let secondaryColor = UIColor(red: 30/255, green: 117/255, blue: 173/255, alpha: 1)
    
+    let djiDroneController = DjiDroneController()
     var isRecording: Bool!
 
     var captureButtton: UIButton!
@@ -203,8 +204,9 @@ class DjiDroneViewController: UIViewController {
     }
     
     @objc func showImage() {
-        let vc = UINavigationController(rootViewController: DjiDroneImageViewController())
-        present(vc, animated: true)
+        let vc = DjiDroneImageViewController()
+        vc.djiDroneController = djiDroneController
+        present(UINavigationController(rootViewController: vc), animated: true)
     }
     
 }

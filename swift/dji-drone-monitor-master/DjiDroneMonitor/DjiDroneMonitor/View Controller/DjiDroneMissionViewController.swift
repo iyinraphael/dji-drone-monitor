@@ -16,7 +16,7 @@ class DjiDroneMissionViewController: UIViewController {
 
     // MARK: - Properties
     let primaryColor = UIColor(red: 228/255, green: 132/255, blue: 74/255, alpha: 1)
-    let djiDroneController = DjiDroneController()
+    var djiDroneController: DjiDroneController?
     var djiDronesAnnotations = [DJIDroneAnnotation]()
     var locationManager: CLLocationManager?
     var location: CLLocationCoordinate2D?
@@ -109,7 +109,7 @@ class DjiDroneMissionViewController: UIViewController {
     
     private func showDiffLocation() {
         
-        djiDroneController.getLocationData { djiDroneLocations, result in
+        djiDroneController?.getLocationData { djiDroneLocations, result in
             if result == .success(true) {
                 for djiDroneLocation in djiDroneLocations {
                     guard let location =  djiDroneLocation,

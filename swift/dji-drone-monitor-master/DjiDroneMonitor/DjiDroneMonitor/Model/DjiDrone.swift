@@ -17,13 +17,13 @@ struct DjiDroneLocation: Codable{
 }
 
 class  DjiImage: Codable {
-    let caseID: String
-    let pictureName: String
-    let picture: Data
+    let CaseID: String
+    let PictureName: String
+    let Picture: String
     
-    init(caseID: String, pictureName: String, picture: Data) {
-        self.caseID = caseID
-        self.pictureName = pictureName
-        self.picture = picture
+    init(CaseID: String, PictureName: String, Picture: String) {
+        self.CaseID = CaseID
+        self.PictureName = PictureName
+        self.Picture = Picture
     }
 }
