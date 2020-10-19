@@ -24,6 +24,7 @@ class DjiDroneImageViewController: UIViewController {
     var djiDroneLocation: DjiDroneLocation?
     var djiDroneController: DjiDroneController?
     var imageData: Data?
+    var pictureInfo = [DjiImage.Info]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,7 +104,11 @@ class DjiDroneImageViewController: UIViewController {
         
         guard let imageData = imageData, let caseID = caseIDTextField.text else { return }
         let binaryImage = imageData.base64EncodedString()
-        let djiImage = DjiImage(CaseID: caseID, PictureName: caseID, Picture: binaryImage)
+        
+        let info = DjiImage.Info(PictureName: caseID, Picture: binaryImage)
+        pictureInfo.append(info)
+        let djiImage = DjiImage(CaseID: caseID, PictureInfo: pictureInfo)
+        
         djiDroneController?.sendImage(djiImage, with: { _, result in
             if result == .success(true){
                 print("it's live!")

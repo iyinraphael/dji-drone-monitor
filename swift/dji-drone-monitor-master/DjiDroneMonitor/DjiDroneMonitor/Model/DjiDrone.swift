@@ -16,14 +16,12 @@ struct DjiDroneLocation: Codable{
 //    let altitude: Double
 }
 
-class  DjiImage: Codable {
+struct DjiImage: Codable {
     let CaseID: String
-    let PictureName: String
-    let Picture: String
-    
-    init(CaseID: String, PictureName: String, Picture: String) {
-        self.CaseID = CaseID
-        self.PictureName = PictureName
-        self.Picture = Picture
+    var PictureInfo: [Info]
+
+    struct Info: Codable {
+        let PictureName: String
+        let Picture: String
     }
 }
