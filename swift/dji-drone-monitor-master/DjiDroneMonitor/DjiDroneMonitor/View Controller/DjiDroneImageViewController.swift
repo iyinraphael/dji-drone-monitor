@@ -104,8 +104,9 @@ class DjiDroneImageViewController: UIViewController {
         
         guard let imageData = imageData, let caseID = caseIDTextField.text else { return }
         let binaryImage = imageData.base64EncodedString()
+        let pictureName = "\(caseID).jpeg"
         
-        let info = DjiImage.Info(PictureName: caseID, Picture: binaryImage)
+        let info = DjiImage.Info(PictureName: pictureName, Picture: binaryImage)
         pictureInfo.append(info)
         let djiImage = DjiImage(CaseID: caseID, PictureInfo: pictureInfo)
         
